@@ -11,6 +11,7 @@ import {
     useWindowDimensions,
     View
 } from 'react-native';
+import { agregarNotificacion } from './notifications';
 
 import { styles } from '../../styles/auth.styles';
 
@@ -79,7 +80,11 @@ export default function FeedScreen() {
         const updatedPosts = [newPost, ...posts];
         setPosts(updatedPosts);
         await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updatedPosts));
-
+        await agregarNotificacion({
+            tipo: 'foto',
+            titulo: 'Nueva foto publicada',
+            mensaje: `${newPost.userName} publicó una foto en el muro.`,
+        });
       } catch (error) {
         Alert.alert("Error", "No se pudo guardar la imagen.");
         console.error(error);
