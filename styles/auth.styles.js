@@ -1,7 +1,10 @@
 import { Dimensions, StyleSheet } from 'react-native';
 
 const { width } = Dimensions.get('window');
-const ITEM_SIZE = (width - 80) / 3;
+const isLargeScreen = width > 600;
+
+// Rejilla dinámica para la galería interna (calcula 3 columnas responsivas)
+const ITEM_SIZE = isLargeScreen ? (600 - 80) / 3 : (width - 80) / 3;
 
 export const styles = StyleSheet.create({
 
@@ -18,6 +21,7 @@ export const styles = StyleSheet.create({
   // ── Animación Lottie ──────────────────────────────────────────
   animationContainer: {
     width: '100%',
+    maxWidth: 500, // Responsivo: evita que crezca demasiado en pantallas grandes
     backgroundColor: '#2A1F5C',
     borderRadius: 20,
     borderWidth: 0.5,
@@ -30,7 +34,7 @@ export const styles = StyleSheet.create({
 
   // ── Marca / título ────────────────────────────────────────────
   title: {
-    fontSize: 20,
+    fontSize: isLargeScreen ? 24 : 20, // Texto un poco más grande en pantallas grandes
     fontWeight: '500',
     color: '#EDE9FB',
     textAlign: 'center',
@@ -52,6 +56,7 @@ export const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 3,
     width: '100%',
+    maxWidth: 500, // Responsivo
     marginBottom: 18,
   },
   botonMenu: {
@@ -75,6 +80,7 @@ export const styles = StyleSheet.create({
   // ── Tarjeta de formulario ─────────────────────────────────────
   card: {
     width: '100%',
+    maxWidth: 500, // Responsivo: Acota el diseño de login estilo Card en Web/Tablet
     backgroundColor: '#2A1F5C',
     borderRadius: 16,
     borderWidth: 0.5,
@@ -95,6 +101,7 @@ export const styles = StyleSheet.create({
     marginBottom: 4,
     paddingHorizontal: 14,
     paddingTop: 12,
+    alignSelf: 'flex-start', // Alinea correctamente el label a la izquierda
   },
   input: {
     width: '100%',
@@ -110,6 +117,7 @@ export const styles = StyleSheet.create({
   // ── Botón principal ───────────────────────────────────────────
   iniciarSesion: {
     width: '100%',
+    maxWidth: 500, // Responsivo
     backgroundColor: '#6C55D4',
     borderRadius: 12,
     paddingVertical: 13,
@@ -128,6 +136,7 @@ export const styles = StyleSheet.create({
   },
   infoBox: {
     width: '100%',
+    maxWidth: 500, // Responsivo
     backgroundColor: '#1E1545',
     borderRadius: 12,
     borderWidth: 0.5,
@@ -148,6 +157,7 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#9B8FCE',
     lineHeight: 20,
+    maxWidth: 500,
   },
 
   // ── Logo inferior ─────────────────────────────────────────────
@@ -162,7 +172,8 @@ export const styles = StyleSheet.create({
   // ── Cámara ────────────────────────────────────────────────────
   cameraPreviewContainer: {
     width: '100%',
-    height: 250,
+    maxWidth: 500, // Responsivo
+    height: isLargeScreen ? 350 : 250, // Más alto en pantallas grandes
     borderRadius: 15,
     overflow: 'hidden',
     marginVertical: 15,
@@ -175,6 +186,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     width: '100%',
+    maxWidth: 500, // Responsivo
     marginBottom: 20,
   },
   actionButton: {
@@ -195,6 +207,7 @@ export const styles = StyleSheet.create({
   // ── Galería interna ───────────────────────────────────────────
   galleryContainer: {
     width: '100%',
+    maxWidth: 500, // Responsivo
     marginBottom: 20,
   },
   galleryTitle: {
@@ -239,6 +252,7 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     color: '#EDE9FB',
   },
+
   // ── Modal visor ───────────────────────────────────────────────
   modalOverlay: {
     flex: 1,
@@ -248,6 +262,7 @@ export const styles = StyleSheet.create({
   },
   modalContent: {
     width: '90%',
+    maxWidth: 550, // Evita que el modal abarque toda la pantalla en tablets
     backgroundColor: '#2A1F5C',
     borderRadius: 16,
     borderWidth: 0.5,
@@ -266,7 +281,7 @@ export const styles = StyleSheet.create({
   },
   modalImage: {
     width: '100%',
-    height: 350,
+    height: isLargeScreen ? 450 : 350, // Escala la imagen en pantallas grandes
     borderRadius: 12,
   },
   modalVideoPlaceholder: {
