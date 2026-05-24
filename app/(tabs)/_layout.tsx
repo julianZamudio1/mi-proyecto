@@ -48,6 +48,13 @@ export default function _layout() {
             <FontAwesome name="book" size={24} color={color} />
           )
         }} />
+        <Tabs.Screen name="feed"
+        options={{ 
+          title: "Muro de Fotos",
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome name="photo" size={24} color={color} />
+          )
+        }} />
     </Tabs>
   )
 }
