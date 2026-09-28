@@ -1,50 +1,95 @@
-# Welcome to your Expo app 👋
+# Mindbox · App móvil de gestión académica
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Aplicación móvil multiplataforma (Android, iOS y web) para estudiantes, desarrollada con **React Native, Expo y TypeScript**. Integra autenticación con **Clerk** (correo/contraseña y **Google OAuth 2.0**), navegación por archivos con **Expo Router**, gestión de tareas con fecha límite, muro de fotos con la cámara del dispositivo, marcadores y notificaciones internas.
 
-## Get started
+![React Native](https://img.shields.io/badge/React_Native-0.81-61DAFB?logo=react&logoColor=black)
+![Expo](https://img.shields.io/badge/Expo-SDK_54-000020?logo=expo&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)
+![Clerk](https://img.shields.io/badge/Auth-Clerk-6C47FF?logo=clerk&logoColor=white)
 
-1. Install dependencies
+<!-- Agrega aquí capturas de pantalla, por ejemplo:
+<p align="center">
+  <img src="docs/login.png" width="200"/>
+  <img src="docs/tareas.png" width="200"/>
+  <img src="docs/muro.png" width="200"/>
+</p>
+-->
 
-   ```bash
-   npm install
-   ```
+## Funcionalidades
 
-2. Start the app
+- **Autenticación:** registro e inicio de sesión con correo y contraseña, o con Google (OAuth 2.0) mediante Clerk; selector de tipo de usuario (Estudiantes / Personal).
+- **Rutas protegidas:** el layout raíz redirige a login si no hay sesión y a la app principal si ya la hay.
+- **Tareas:** CRUD de tareas con nombre, descripción y fecha de finalización (DateTimePicker), edición en línea e indicador por colores según la proximidad de la fecha (vencida, hoy, mañana, a tiempo).
+- **Muro de fotos:** captura con la cámara (expo-image-picker) y publicación persistida localmente con AsyncStorage.
+- **Perfil:** cámara integrada (expo-camera) con modo foto y video, cambio entre cámara frontal y trasera, y galería de lo capturado.
+- **Marcadores:** guardar enlaces con título, URL y categoría, con filtro por categoría.
+- **Notificaciones:** historial de eventos de la app (tareas y fotos nuevas) con opción de marcar como leídas o limpiar.
+- **UI:** navegación por pestañas con íconos, animaciones Lottie y diseño responsivo.
 
-   ```bash
-   npx expo start
-   ```
+## Stack
 
-In the output, you'll find options to open the app in a
+| Área | Tecnología |
+|---|---|
+| Framework | React Native 0.81, Expo SDK 54 (nueva arquitectura) |
+| Lenguaje | TypeScript |
+| Navegación | Expo Router (rutas basadas en archivos), Bottom Tabs |
+| Autenticación | Clerk (`@clerk/clerk-expo`), Google OAuth, expo-auth-session |
+| Persistencia | AsyncStorage |
+| Hardware | expo-camera, expo-image-picker, expo-media-library |
+| UI / animación | Lottie, @expo/vector-icons, Reanimated |
+| Calidad | ESLint (eslint-config-expo) |
+| Builds | EAS Build |
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## Estructura
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+```
+app/
+├── _layout.tsx               # ClerkProvider + redirección según sesión
+├── auth/
+│   ├── login.tsx             # Login con correo o Google
+│   └── register.tsx          # Registro de usuario
+├── (tabs)/
+│   ├── _layout.tsx           # Navegación por pestañas
+│   ├── index.tsx             # Inicio y accesos rápidos
+│   ├── homework.tsx          # CRUD de tareas con fechas
+│   ├── feed.tsx              # Muro de fotos
+│   ├── profile.tsx           # Perfil con cámara foto/video
+│   ├── bookmark.tsx          # Marcadores por categoría
+│   ├── notifications.tsx     # Notificaciones internas
+│   └── main.tsx              # Pantalla principal y cierre de sesión
+├── oauth-native-callback.tsx # Retorno del flujo OAuth
+└── assets/
+styles/
+└── auth.styles.js            # Estilos compartidos
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Instalación y ejecución
 
-## Learn more
+**Requisitos:** Node.js 18+, una cuenta de [Clerk](https://clerk.com) con Google habilitado como proveedor social, y la app Expo Go o un emulador Android/iOS.
 
-To learn more about developing your project with Expo, look at the following resources:
+```bash
+git clone https://github.com/julianZamudio1/mi-proyecto.git
+cd mi-proyecto
+npm install
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+Crea un archivo `.env` en la raíz:
 
-## Join the community
+```env
+EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_xxxxxxxxxxxxxxxx
+```
 
-Join our community of developers creating universal apps.
+Inicia el proyecto:
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+```bash
+npx expo start          # Menú de Expo (QR para Expo Go)
+npm run android         # Build nativo en Android
+npm run web             # Versión web
+```
+
+> El login con Google requiere un *development build* (`expo-dev-client`) porque usa un esquema de URL propio (`miproyecto://`).
+
+## Autor
+
+**Eduardo Julián Zamudio Govea** · Ingeniería en Sistemas Computacionales, ITLP
+[github.com/julianZamudio1](https://github.com/julianZamudio1)
